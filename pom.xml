@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <!-- **************************************************************************
+      *
+      * Copyright (c) 2010-2017 Primerica Financial Services (PRI)
+      *
+      * Vue Project for Primerica Financial Services.
+      * Also available for mobile services and applications.
+      *
+      * file: maven pom.xml
+      *
+      ************************************************************************** -->
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.pfs.pol.registration</groupId>
+  <artifactId>registration-frontend</artifactId>
+  <packaging>war</packaging>
+  <version>1.0.0.1</version>
+  <!-- <version>1.0-SNAPSHOT</version> -->
+  <name>Registration Frontend Project</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven-clean-plugin-version>2.5</maven-clean-plugin-version>
+    <maven-compiler-plugin-version>3.3</maven-compiler-plugin-version>
+    <maven-dependency-plugin-version>2.8</maven-dependency-plugin-version>
+    <maven-install-plugin-version>2.4</maven-install-plugin-version>
+    <maven-jar-plugin-version>2.4</maven-jar-plugin-version>
+    <maven-resources-plugin-version>2.6</maven-resources-plugin-version>
+    <maven-surefire-plugin-version>2.12.4</maven-surefire-plugin-version>
+    <maven-war-plugin-version>2.2</maven-war-plugin-version>
+    <maven-ear-plugin-version>2.8</maven-ear-plugin-version>
+    <frontend-maven-plugin.version>1.4</frontend-maven-plugin.version>
+    <node.version>v8.11.2</node.version>
+
+  </properties>
+
+  <dependencies>
+  </dependencies>
+
+ <distributionManagement>
+      <repository>
+        <id>nexusRelease</id>
+        <url>http://lxnexus.pfsfhq.com:8081/repository/pri-deploy/</url>
+        <layout>default</layout>
+      </repository>
+ 
+      <snapshotRepository>
+        <id>nexusSnapshot</id>
+        <name>lxnexus-snapshot</name>
+        <url>http://lxnexus.pfsfhq.com:8081/repository/pri-snapshots/</url>
+        <layout>default</layout>
+      </snapshotRepository>
+   </distributionManagement>
+
+  <build>
+    <finalName>registration-frontend</finalName>
+    <sourceDirectory>src/dist</sourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resource</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin-version}</version>
+        <configuration>
+          <source>${java.source.version}</source>
+          <target>${java.target.version}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.8</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</outputDirectory>
+              <includeScope>system</includeScope>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <webResources>
+            <resource>
+              <directory>dist</directory>
+            </resource>
+             <resource>
+              <directory>config/war</directory>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.3.2</version>
+        <executions>
+          <execution>
+            <id>npm install (initialize)</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>initialize</phase>
+            <configuration>
+              <executable>npm</executable>
+              <arguments>
+                <argument>install</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm install (clean)</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>pre-clean</phase>
+            <configuration>
+              <executable>npm</executable>
+              <arguments>
+                <argument>install</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm config list (validate)</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>validate</phase>
+            <configuration>
+              <executable>npm</executable>
+              <arguments>
+                <argument>config</argument>
+                <argument>list</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm run package</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+              <executable>npm</executable>
+              <arguments>
+                <argument>run</argument>
+                <argument>package</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
