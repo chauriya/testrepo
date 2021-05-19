@@ -1,0 +1,62 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <proxies>
+  </proxies>
+  <mirrors>
+    <mirror>
+      <mirrorOf>*</mirrorOf>
+        <id>central</id>
+        <name>Nexus_Mirror</name>
+        <url>http://lxnexus.pfsfhq.com:8081/repository/All-Central</url>
+    </mirror>
+  </mirrors>
+
+<profiles>
+  <profile>
+     <id>allow-snapshots</id>
+        <activation><activeByDefault>true</activeByDefault></activation>
+     <repositories>
+       <repository>
+         <id>snapshots-repo</id>
+         <url>http://lxnexus.pfsfhq.com:8081/repository/pri-snapshots</url>
+         <releases><enabled>false</enabled></releases>
+         <snapshots><enabled>true</enabled></snapshots>
+       </repository>
+     </repositories>
+   </profile>
+
+  <profile>
+     <id>nexus</id>
+        <activation><activeByDefault>true</activeByDefault></activation>
+     <repositories>
+      <repository>
+        <id>nexusRelease</id>
+        <url>http://lxnexus.pfsfhq.com:8081/repository/pri-deploy/</url>
+      </repository>
+
+      <repository>
+        <id>nexusSnapshot</id>
+        <name>lxnexus-snapshot</name>
+        <url>http://lxnexus.pfsfhq.com:8081/repository/pri-snapshots/</url>
+        <snapshots><enabled>true</enabled></snapshots>
+      </repository>
+
+     </repositories>
+  </profile>
+
+</profiles>
+
+<servers>
+    <server>
+      <id>nexusSnapshot</id>
+      <username>${nexus_username}</username>
+      <password>${nexus_password}</password>
+    </server>
+    <server>
+      <id>nexusRelease</id>
+      <username>${nexus_username}</username>
+      <password>${nexus_password}</password>
+    </server>
+</servers>
+
+</settings>

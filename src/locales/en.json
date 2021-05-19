@@ -1,0 +1,11 @@
+{
+  "VI_QUE_ONE": "Is this you?",
+  "VI_SUGGESTION_ONE": "If not, go back to re-enter your information.You will be able to update your information after registration.",
+  "VI_REPID": "Rep ID/User ID",
+  "errormessages":{
+      "generic":{
+          "headerInfo":"We're sorry.",
+          "bodyDescription":"Unable to register you online. Please call (888) 737-2255 US or (905) 812-3520 Canada for assistance with your account."
+      }
+  }
+}
