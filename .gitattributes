@@ -1,1 +1,1 @@
-./src/shared/*.js linguist-detectable=false
+src/shared-components/mixins/*.js linguist-detectable=false
