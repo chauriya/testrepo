@@ -1,1 +1,1 @@
-src/shared-components/mixins/** linguist-vendored=false
+src/shared-components/mixins/*.js linguist-language=Vue
